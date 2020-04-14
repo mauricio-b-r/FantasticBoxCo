@@ -1,0 +1,15 @@
+.progress {
+  /* Positioning */
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  /* Misc */
+
+  > li {
+    margin: 0 0 $spacing;
+    padding: 0;
+  }
+}

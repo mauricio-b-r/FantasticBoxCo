@@ -1,0 +1,73 @@
+.step {
+  position: relative;
+
+  box-sizing: border-box;
+  display: block;
+  margin-left: 30px;
+  min-height: 78px;
+  padding: 10px 10px 10px 39px;
+
+  text-decoration: none;
+
+  background: #e5e5e5;
+  border: solid 2px #e5e5e5;
+  border-radius: 4px;
+  color: #333;
+
+  .step-number {
+    position: absolute;
+    left: 0;
+    top: 7px;
+
+    height: 50px;
+    width: 50px;
+    margin-left: -31px;
+
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 50px;
+    text-align: center;
+    text-decoration: none;
+
+    background-color: $color-primary;
+    border: solid 4px #fff;
+    border-radius: 100%;
+    color: #fff;
+  }
+
+  .step-heading {
+    margin: 0 0 4px;
+    font-size: 16px;
+  }
+
+  dl {
+    margin: 0;
+    font-size: 14px;
+  }
+
+  dt {
+    float: left;
+    width: 60px;
+  }
+
+  dd {
+    margin: 0 0 2px;
+    text-align: right;
+    border-bottom: dotted 1px #999;
+  }
+
+  &:hover {
+    background-color: #fff;
+  }
+
+  &.is-active {
+    margin-right: -($spacing + 2px);
+    padding-right: ($spacing + 12px);
+
+    background-color: #fff;
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+

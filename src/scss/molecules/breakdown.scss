@@ -1,0 +1,27 @@
+.breakdown {
+  /* Positioning */
+
+  /* Box-model */
+
+  /* Typography */
+  // text-align: center;
+  font-size: 22px;
+
+  /* Visual */
+
+  /* Misc */
+
+  dt {
+    // float: left;
+    font-weight: bold;
+  }
+
+  dd {
+    margin-bottom: 20px;
+
+    ol {
+      margin-top: 0;
+    }
+  }
+}
+

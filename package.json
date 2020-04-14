@@ -1,0 +1,48 @@
+{
+  "name": "fantastic-box-co",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf ./dist/* && mkdir ./dist/js",
+    "prebuild": "npm run clean",
+    "build:css": "node-sass --include-path ./node_modules --output-style compressed ./src/scss/application.scss ./dist/css/application.css && postcss --use autoprefixer -b 'last 2 versions' ./dist/css/application.css -r true",
+    "build:js": "babel src/js/application.js | terser --compress --mangle > dist/js/bundle.js && browserify dist/js/bundle.js -o dist/js/bundle.js",
+    "build:html": "copyfiles -u 1 ./src/index.html ./dist",
+    "build:favicon": "copyfiles -u 1 ./src/favicon.ico ./dist",
+    "build": "npm run build:css && npm run build:js && npm run build:html && npm run build:favicon",
+    "watch:css": "watch 'npm run build:css' ./src/scss/",
+    "watch:js": "watch 'npm run build:js' ./src/js/",
+    "watch:html": "watch 'npm run build:html' ./src/",
+    "watch": "parallelshell \"npm run watch:css -s\" \"npm run watch:js -s\" \"npm run watch:html -s\"",
+    "open:dev": "opener http:127.0.0.1:9090",
+    "serve": "http-server -p 9090 ./dist/",
+    "dev": "npm run clean && npm run build:favicon && parallelshell \"npm run watch\" \"npm run serve\" \"npm run open:dev -s\"",
+    "test": "todo..."
+  },
+  "author": "TEMPL",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.0.0-rc.1",
+    "@babel/preset-react": "^7.9.4",
+    "autoprefixer": "^6.0.3",
+    "browserify": "^16.5.1",
+    "copyfiles": "^0.2.1",
+    "gulp-sass": "^4.0.2",
+    "http-server": "^0.11.1",
+    "node-sass": "^4.13.1",
+    "normalize-sass": "^1.0.0",
+    "opener": "^1.4.1",
+    "parallelshell": "^3.0.2",
+    "postcss-cli": "^2.3.1",
+    "rimraf": "^2.4.3",
+    "watch": "^0.16.0"
+  },
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "terser": "^4.6.11"
+  }
+}

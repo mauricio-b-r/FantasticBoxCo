@@ -1,0 +1,18 @@
+header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 100;
+
+  height: $header-height;
+  padding-left: 30px;
+  padding-right: 30px;
+
+  background-color: $color-primary;
+
+  .logo {
+    display: block;
+    line-height: $header-height;
+  }
+}

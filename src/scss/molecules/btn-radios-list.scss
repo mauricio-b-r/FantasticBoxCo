@@ -1,0 +1,49 @@
+.btn-radios-list {
+  /* Positioning */
+
+  /* Box-model */
+  margin: 100px 0;
+
+  /* Typography */
+  font-size: 0;
+
+  /* Visual */
+  list-style: none;
+  text-align: center;
+
+  /* Misc */
+
+  > li {
+    display: inline-block;
+    margin: 10px;
+
+    font-size: 16px;
+
+    vertical-align: top;
+  }
+
+  label {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+  }
+
+  .btn-radio {
+    margin: 0;
+    font-size: 24px;
+  }
+
+  input[type="radio"],
+  input[type="checkbox"] {
+    position: absolute;
+    left: -100%;
+  }
+
+  input[type="radio"]:checked + .btn-radio,
+  input[type="checkbox"]:checked + .btn-radio {
+    background-color: $color-primary;
+    border-color: $color-primary;
+    color: #fff;
+  }
+}
+
