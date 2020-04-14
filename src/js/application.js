@@ -47,7 +47,17 @@ const Aside = ({ step1, step2, step3, step4 }) => {
           <a href="#step-4" className="step step-4">
             <div className="step-number">4</div>
             <h3 className="step-heading">Optional Extras</h3>
-            <span className="step-value">-</span>
+            {step4.handles && 
+            <span className="step-value">
+              Handles
+            </span>
+            }
+            {step4.handles && step4.reinforced && <br/>}
+            {step4.reinforced && 
+            <span className="step-value">
+              Reinforced Bottom
+            </span>
+            }
           </a>
         </li>
         <li>
@@ -311,7 +321,10 @@ const StepFour = ({
       <ol className="btn-radios-list">
         <li>
           <label>
-            <input type="checkbox" name="optional-extras" value="handles" />
+            <input type="checkbox" name="optional-extras" value="handles" 
+            onChange={(e) =>
+              setStep4({ ...step4, handles: e.target.checked })
+            } />
             <span className="btn btn-radio">
               Handles
               <br />
@@ -325,6 +338,9 @@ const StepFour = ({
               type="checkbox"
               name="optional-extras"
               value="reinforced-bottom"
+              onChange={(e) =>
+                setStep4({ ...step4, reinforced: e.target.checked })
+              }
             />
             <span className="btn btn-radio">
               Reinforced bottom
