@@ -1,5 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
+
+const GRADE_A = {text: 'A Grade', value: 0.20};
+const GRADE_B = {text: 'B Grade', value: 0.10};
+const GRADE_C = {text: 'C Grade', value: 0.05};
+const COLOURS_3 = {text: '3 colours', value: 0.20};
+const COLOURS_2 = {text: '2 colours', value: 0.10};
+const BLACK_ONLY = {text: 'Black only', value: 0.05};
+const NO_PRINTING = {text: 'No printing', value: 0.00};
+const FANTASTICBOXCO_BRANDING = {text: 'FantasticBoxCo branding', value: 0.95};
+const REINFORCED_BOTTOM = {text: 'Reinforced bottom', value: 0.05};
+const HANDLES = {text: 'Handles', value: 0.10};
 
 const Header = () => {
   return (
@@ -9,7 +20,7 @@ const Header = () => {
   );
 };
 
-const Aside = ({ step1, step2, step3, step4 }) => {
+const Aside = ({ step1, step2, step3, step4, totalCost }) => {
   return (
     <aside>
       <ul className="progress">
@@ -49,13 +60,13 @@ const Aside = ({ step1, step2, step3, step4 }) => {
             <h3 className="step-heading">Optional Extras</h3>
             {step4.handles && 
             <span className="step-value">
-              Handles
+              {HANDLES.text}
             </span>
             }
             {step4.handles && step4.reinforced && <br/>}
             {step4.reinforced && 
             <span className="step-value">
-              Reinforced Bottom
+              {REINFORCED_BOTTOM.text}
             </span>
             }
           </a>
@@ -63,7 +74,7 @@ const Aside = ({ step1, step2, step3, step4 }) => {
         <li>
           <a href="#total-cost" className="step step-total-cost">
             <h3 className="step-total-cost-heading">Total Cost</h3>
-            <div className="step-total-cost-value">&pound;0.00</div>
+            <div className="step-total-cost-value">&pound;{(Math.round(totalCost * 100) / 100).toFixed(2)}</div>
           </a>
         </li>
       </ul>
@@ -71,7 +82,7 @@ const Aside = ({ step1, step2, step3, step4 }) => {
   );
 };
 
-const StepOne = ({ step1, setStep1 }) => {
+const StepOne = ({ step1, setStep1, errors }) => {
   return (
     <div id="step-1" className="content-step">
       <h2>Step 1 - Dimensions &amp; Quantity</h2>
@@ -141,7 +152,7 @@ const StepOne = ({ step1, setStep1 }) => {
   );
 };
 
-const StepTwo = ({ step2, setStep2 }) => {
+const StepTwo = ({ step2, setStep2, errors }) => {
   return (
     <div id="step-2" className="content-step">
       <h2>Step 2 - Cardboard Grade</h2>
@@ -157,15 +168,15 @@ const StepTwo = ({ step2, setStep2 }) => {
             <input
               type="radio"
               name="cardboard-grade"
-              value="A"
-              onChange={(e) =>
-                setStep2({ grade: e.target.value, text: "A Grade" })
+              value={GRADE_A.text}
+              onChange={() =>
+                setStep2(GRADE_A)
               }
             />
             <span className="btn btn-radio">
-              A Grade
+              {GRADE_A.text}
               <br />
-              &pound;0.20 m<sup>2</sup>
+              &pound;{GRADE_A.value.toFixed(2)} m<sup>2</sup>
             </span>
           </label>
         </li>
@@ -174,15 +185,15 @@ const StepTwo = ({ step2, setStep2 }) => {
             <input
               type="radio"
               name="cardboard-grade"
-              value="B"
-              onChange={(e) =>
-                setStep2({ grade: e.target.value, text: "B Grade" })
+              value={GRADE_B.text}
+              onChange={() =>
+                setStep2(GRADE_B)
               }
             />
             <span className="btn btn-radio">
-              B Grade
+              {GRADE_B.text}
               <br />
-              &pound;0.10 m<sup>2</sup>
+              &pound;{GRADE_B.value.toFixed(2)} m<sup>2</sup>
             </span>
           </label>
         </li>
@@ -191,15 +202,15 @@ const StepTwo = ({ step2, setStep2 }) => {
             <input
               type="radio"
               name="cardboard-grade"
-              value="C"
-              onChange={(e) =>
-                setStep2({ grade: e.target.value, text: "C Grade" })
+              value={GRADE_C.text}
+              onChange={() =>
+                setStep2(GRADE_C)
               }
             />
             <span className="btn btn-radio">
-              C Grade
+              {GRADE_C.text}
               <br />
-              &pound;0.05 m<sup>2</sup>
+              &pound;{GRADE_C.value.toFixed(2)} m<sup>2</sup>
             </span>
           </label>
         </li>
@@ -216,10 +227,7 @@ const StepTwo = ({ step2, setStep2 }) => {
     </div>
   );
 };
-const StepThree = ({
-  step3,
-  setStep3
-}) => {
+const StepThree = ({setStep3, errors}) => {
   return (
     <div id="step-3" className="content-step">
       <h2>Step 3 - Print Quality</h2>
@@ -232,49 +240,49 @@ const StepThree = ({
       <ol className="btn-radios-list">
         <li>
           <label>
-            <input type="radio" name="print-quality" value="3-color" onChange={(e) =>
-                setStep3({ colour: e.target.value, text: "3 colours" })
+            <input type="radio" name="print-quality" value={COLOURS_3.text} onChange={() =>
+                setStep3(COLOURS_3)
               } />
             <span className="btn btn-radio">
               3 colours
               <br />
-              &pound;0.20 m<sup>2</sup>
+              &pound;{COLOURS_3.value.toFixed(2)} m<sup>2</sup>
             </span>
           </label>
         </li>
         <li>
           <label>
-            <input type="radio" name="print-quality" value="2-color" onChange={(e) =>
-                setStep3({ colour: e.target.value, text: "2 colours" })
+            <input type="radio" name="print-quality" value={COLOURS_2.text} onChange={() =>
+                setStep3(COLOURS_2)
               } />
             <span className="btn btn-radio">
               2 colours
               <br />
-              &pound;0.10 m<sup>2</sup>
+              &pound;{COLOURS_2.value.toFixed(2)} m<sup>2</sup>
             </span>
           </label>
         </li>
         <li>
           <label>
-            <input type="radio" name="print-quality" value="black-only" onChange={(e) =>
-                setStep3({ colour: e.target.value, text: "Black only" })
+            <input type="radio" name="print-quality" value={BLACK_ONLY.text} onChange={() =>
+                setStep3(BLACK_ONLY)
               } />
             <span className="btn btn-radio">
               Black only
               <br />
-              &pound;0.05 m<sup>2</sup>
+              &pound;{BLACK_ONLY.value.toFixed(2)} m<sup>2</sup>
             </span>
           </label>
         </li>
         <li>
           <label>
-            <input type="radio" name="print-quality" value="no-printing" onChange={(e) =>
-                setStep3({ colour: e.target.value, text: "No printing" })
+            <input type="radio" name="print-quality" value={NO_PRINTING.text} onChange={() =>
+                setStep3(NO_PRINTING)
               } />
             <span className="btn btn-radio">
               No printing
               <br />
-              &pound;0.00
+              &pound;{NO_PRINTING.value.toFixed(2)}
             </span>
           </label>
         </li>
@@ -283,9 +291,9 @@ const StepThree = ({
             <input
               type="radio"
               name="print-quality"
-              value="FantasticBoxCo-branding"
-              onChange={(e) =>
-                setStep3({ grade: e.target.value, text: "B Grade" })
+              value={FANTASTICBOXCO_BRANDING.text}
+              onChange={() =>
+                setStep3(FANTASTICBOXCO_BRANDING)
               }
             />
             <span className="btn btn-radio">
@@ -310,10 +318,10 @@ const StepThree = ({
 };
 const StepFour = ({
   step4,
-  setStep4
+  setStep4,
+  handleFinish,
+  errors,
 }) => {
-  const handleFinish = () => {};
-
   return (
     <div id="step-4" className="content-step">
       <h2>Step 4 - Optional Extras</h2>
@@ -321,14 +329,14 @@ const StepFour = ({
       <ol className="btn-radios-list">
         <li>
           <label>
-            <input type="checkbox" name="optional-extras" value="handles" 
+            <input type="checkbox" name="optional-extras" value={HANDLES.text} 
             onChange={(e) =>
-              setStep4({ ...step4, handles: e.target.checked })
+              setStep4({ ...step4, handles: e.target.checked ? HANDLES : '' })
             } />
             <span className="btn btn-radio">
-              Handles
+              {HANDLES.text}
               <br />
-              &pound;0.10 per box
+              &pound;{HANDLES.value.toFixed(2)} per box
             </span>
           </label>
         </li>
@@ -337,15 +345,15 @@ const StepFour = ({
             <input
               type="checkbox"
               name="optional-extras"
-              value="reinforced-bottom"
+              value={REINFORCED_BOTTOM.text}
               onChange={(e) =>
-                setStep4({ ...step4, reinforced: e.target.checked })
+                setStep4({ ...step4, reinforced: e.target.checked ? REINFORCED_BOTTOM : '' })
               }
             />
             <span className="btn btn-radio">
-              Reinforced bottom
+              {REINFORCED_BOTTOM.text}
               <br />
-              &pound;0.05 per box
+              &pound;{REINFORCED_BOTTOM.value.toFixed(2)} per box
               <br />
               <small>(only available with grade A cardboard)</small>
             </span>
@@ -373,7 +381,8 @@ const FinishStep = ({
   step1,
   step2,
   step3,
-  step4  
+  step4,
+  totalCost,
 }) => {
   return (
     <div id="total-cost" className="content-step">
@@ -392,13 +401,21 @@ const FinishStep = ({
         <dt>Optional Extras:</dt>
         <dd>
           <ol>
-            <li>Handles</li>
-            <li>Reinforce bottoms</li>
+          {step4.handles && 
+            <li>
+              {HANDLES.text}
+            </li>
+          }
+          {step4.reinforced && 
+            <li>
+              {REINFORCED_BOTTOM.text}
+            </li>
+          }
           </ol>
         </dd>
 
         <dt>Total Cost:</dt>
-        <dd>&pound;0.00</dd>
+        <dd>&pound;{(Math.round(totalCost * 100) / 100).toFixed(2)}</dd>
       </dl>
     </div>
   );
@@ -413,36 +430,87 @@ const Section = ({
   setStep2,
   setStep3,
   setStep4,
+  totalCost,
+  setTotalCost,
 }) => {
+  const [hasFinished, setHasFinished] = useState(false);
+  const [errors, setErrors] = useState([]);
+
+  const handleFinish = (evt) => {
+    evt.preventDefault();
+    if(step1.quantity<=0 && step1.length<=0 && step1.width<=0 && step1.height<=0) {
+      setErrors([]);
+      return;
+    }
+    if(!step2) {
+      setErrors([]);
+      return;
+    }
+    const m2 = step1.length*step1.height*step1.width;
+    if(step2 === GRADE_C && step1.length>m2*2) {
+      setErrors([]);
+      return;
+    }
+    if(!step3) {
+      setErrors([]);
+      return;
+    }
+    if(step4.reinforced && step2 !== GRADE_A) {
+      setErrors([]);
+      return;
+    }
+    var total = m2 * step2.value + (m2 * step3===FANTASTICBOXCO_BRANDING ? 0 : step3.value);
+    for (const [key, value] of Object.entries(step4)) {
+      total+=m2*value?.value || 0;
+    }
+    total*=step1.quantity;
+    if (step3 === FANTASTICBOXCO_BRANDING) total*=step3.value;
+
+    setTotalCost(total);
+    setErrors([]);
+    setHasFinished(true);
+  };
+
+  useEffect(() => {
+    setHasFinished(false);
+    setTotalCost(0);
+    setErrors([]);
+  }, [step1, step2, step3, step4]);
+
+
   return (
     <section>
-      <StepOne step1={step1} setStep1={setStep1}></StepOne>
-      <StepTwo step2={step2} setStep2={setStep2}></StepTwo>
-      <StepThree step3={step3} setStep3={setStep3}></StepThree>
-      <StepFour step4={step4} setStep4={setStep4}></StepFour>
-      <FinishStep
-        step1={step1}
-        step2={step2}
-        step3={step3}
-        step4={step4}
-      ></FinishStep>
+      <StepOne step1={step1} setStep1={setStep1} errors={errors}></StepOne>
+      <StepTwo step2={step2} setStep2={setStep2} errors={errors}></StepTwo>
+      <StepThree setStep3={setStep3} errors={errors}></StepThree>
+      <StepFour step4={step4} setStep4={setStep4} handleFinish={handleFinish} errors={errors}></StepFour>
+      {hasFinished &&
+        <FinishStep
+          step1={step1}
+          step2={step2}
+          step3={step3}
+          step4={step4}
+          totalCost={totalCost}
+        ></FinishStep>
+      }
     </section>
   );
 };
 
 const Main = () => {
   let initial_step1 = { width: 0, height: 0, length: 0, quantity: 0 };
-  let initial_step2 = { grade: "", text: "" };
-  let initial_step3 = { colour: "", text: "" };
-  let initial_step4 = { handles: false, reinforced: false };
+  let initial_step2 = '';
+  let initial_step3 = '';
+  let initial_step4 = { handles: '', reinforced: '' };
   const [step1, setStep1] = useState(initial_step1);
   const [step2, setStep2] = useState(initial_step2);
   const [step3, setStep3] = useState(initial_step3);
   const [step4, setStep4] = useState(initial_step4);
+  const [totalCost, setTotalCost] = useState(0);
   return (
     <main>
       <div className="container">
-        <Aside step1={step1} step2={step2} step3={step3} step4={step4}></Aside>
+        <Aside step1={step1} step2={step2} step3={step3} step4={step4} totalCost={totalCost}></Aside>
         <Section
           step1={step1}
           step2={step2}
@@ -452,6 +520,8 @@ const Main = () => {
           setStep2={setStep2}
           setStep3={setStep3}
           setStep4={setStep4}
+          totalCost={totalCost}
+          setTotalCost={setTotalCost}
         ></Section>
       </div>
     </main>
