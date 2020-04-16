@@ -36,5 +36,10 @@
   input[type="number"] {
     text-align: right;
   }
+
+  span {
+    padding-left: 10px;
+    color: $color-primary;
+  }
 }
 

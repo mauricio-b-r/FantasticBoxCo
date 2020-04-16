@@ -8,6 +8,16 @@
 
   > h2 {
     margin-top: 0;
+    > i {
+      color: $color-primary;
+      font-size: 12px;
+      vertical-align: text-top;
+    }
+  }
+
+  > span {
+    padding-left: 10px;
+    color: $color-primary;
   }
 
   .intro {
