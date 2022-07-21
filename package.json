@@ -43,6 +43,6 @@
   "dependencies": {
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "terser": "^4.6.11"
+    "terser": "^4.8.1"
   }
 }
